@@ -1,0 +1,14 @@
+.isSelected {
+  background-color: grey;
+  border: grey;
+}
+
+.isCorrect {
+  background-color: green;
+  border: green;
+}
+
+.isFalse {
+  background-color: red;
+  border: red;
+}

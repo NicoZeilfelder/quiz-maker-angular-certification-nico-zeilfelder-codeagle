@@ -1,0 +1,20 @@
+<h1>QUIZ MAKER</h1>
+
+<div class="row">
+  <select name="categories" id="categorySelect" [(ngModel)]="selectedCategory">
+    <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+  </select>
+
+  <select name="difficulties" id="difficultySelect" [(ngModel)]="selectedDifficulty">
+    <option *ngFor="let difficulty of difficulties" [value]="difficulty">{{difficulty}}</option>
+  </select>
+
+  <button id="createBtn" [disabled]="!selectedCategory || !selectedDifficulty" (click)="createQuiz()">Create</button>
+</div>
+
+<div class="row">
+  <app-quiz [questions]="questions" (quizSubmitted)="submitQuiz($event)"></app-quiz>
+</div>
+
+
+
