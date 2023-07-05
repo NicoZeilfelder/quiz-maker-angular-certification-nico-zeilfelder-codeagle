@@ -45,6 +45,15 @@ export class QuizComponent {
 
   private _questions: Question[] = [];
 
+  public getDecodedString(answer: string): string {
+    return answer
+        .replace('&amp;', '&')
+        .replace('&apos;', "'")
+        .replace('&quot;', '"')
+        .replace('&gt;', '>')
+        .replace('&lt;', '<');
+  }
+
   public selectAnswer(question: string, answer: string): void {
     const customQuestion: CustomQuestion | undefined =  this._customQuestions?.find((c: CustomQuestion) => c.question === question);
     const index: number | undefined = customQuestion?.selected_answers.indexOf(answer);
@@ -67,13 +76,15 @@ export class QuizComponent {
   }
 
   public getNumberOfCorrectAnswers(): number {
-    let counter: number = 0;
+    let correctAnswers: number = 0;
 
     this.customQuestions?.forEach((c: CustomQuestion) => {
-
+      if(c.selected_answers.includes(c.correct_answer)) {
+        correctAnswers++;
+      }
     });
 
-    return counter;
+    return correctAnswers;
   }
 
   public isSubmitButtonVisible(): boolean {
