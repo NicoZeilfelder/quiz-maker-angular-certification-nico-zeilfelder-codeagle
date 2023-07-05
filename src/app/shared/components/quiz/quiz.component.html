@@ -2,7 +2,8 @@
   <div *ngFor="let customQuestion of customQuestions">
     <span class="row">{{customQuestion.question}}</span>
     <div class="row">
-      <button *ngFor="let answer of customQuestion?.answers" (click)="selectAnswer(customQuestion.question, answer)"
+      <button *ngFor="let answer of customQuestion?.answers" [disabled]="isSubmitted"
+              (click)="selectAnswer(customQuestion.question, answer)"
               [ngClass]="{isSelected: !isSubmitted && isAnswerSelected(customQuestion, answer),
               isCorrect: isSubmitted && isAnswerCorrect(customQuestion, answer),
               isFalse: isSubmitted && isAnswerSelected(customQuestion, answer) && !isAnswerCorrect(customQuestion, answer)}">

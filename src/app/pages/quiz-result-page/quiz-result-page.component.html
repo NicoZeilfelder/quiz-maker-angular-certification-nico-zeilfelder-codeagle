@@ -1,3 +1,5 @@
 <h1>RESULTS</h1>
 
-<button id="submit" (click)="createNewQuiz()">Create a new quiz</button>
+<app-quiz [customQuestions]="customQuestions"></app-quiz>
+
+<button id="newQuiz" (click)="createNewQuiz()">Create a new quiz</button>

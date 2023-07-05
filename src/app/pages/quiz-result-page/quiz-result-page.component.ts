@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Router} from "@angular/router";
+import {Router, ActivatedRoute} from "@angular/router";
+import {CustomQuestion} from "../../model/quiz.model";
+import {QuizService} from "../../services/quiz.service";
 
 
 @Component({
@@ -8,9 +10,15 @@ import {Router} from "@angular/router";
   styleUrls: ['./quiz-result-page.component.css']
 })
 export class QuizResultPageComponent implements OnInit {
-  constructor(private router: Router) { }
+  public customQuestions!: CustomQuestion[];
+
+  constructor(private router: Router,
+              private quizService: QuizService) {
+
+  }
 
   ngOnInit(): void {
+    this.customQuestions = this.quizService.customQuestions;
   }
 
   public createNewQuiz(): void {

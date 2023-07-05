@@ -33,13 +33,14 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
   public createQuiz(): void {
     this.subscriptions.push(this.quizService.getQuestions(this.selectedCategory, this.selectedDifficulty)
       .subscribe((data: Quiz) => {
-        this.questions = data.results;
+        this.questions = data
+            .results;
     }));
   }
 
   public submitQuiz(customQuestions: CustomQuestion[]): void {
-    console.log(customQuestions)
-    // this.router.navigate(['results'])
+    this.quizService.customQuestions = customQuestions;
+    this.router.navigate(['results'], {state: {customQuestions}});
   }
 
   public ngOnDestroy(): void {
