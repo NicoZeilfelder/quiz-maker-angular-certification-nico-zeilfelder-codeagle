@@ -1,14 +1,15 @@
 <div *ngIf="customQuestions">
     <div *ngIf="customQuestions.length > 0">
         <div *ngFor="let customQuestion of customQuestions">
-            <span class="row">{{getDecodedString(customQuestion.question)}}</span>
+            <!--            <span class="row">{{getDecodedString(customQuestion.question)}}</span>-->
+            <span class="row" [innerHTML]="customQuestion.question"></span>
             <div class="row">
-                <button *ngFor="let answer of customQuestion?.answers" [disabled]="isSubmitted"
+                <button *ngFor="let answer of customQuestion?.answers" [innerHTML]="answer" [disabled]="isSubmitted"
                         (click)="selectAnswer(customQuestion.question, answer)"
-                        [ngClass]="{isSelected: !isSubmitted && isAnswerSelected(customQuestion, answer),
+                        [ngClass]="{canHover: !isSubmitted,
+                        isSelected: !isSubmitted && isAnswerSelected(customQuestion, answer),
                         isCorrect: isSubmitted && isAnswerCorrect(customQuestion, answer),
                         isFalse: isSubmitted && isAnswerSelected(customQuestion, answer) && !isAnswerCorrect(customQuestion, answer)}">
-                    {{getDecodedString(answer)}}
                 </button>
             </div>
         </div>

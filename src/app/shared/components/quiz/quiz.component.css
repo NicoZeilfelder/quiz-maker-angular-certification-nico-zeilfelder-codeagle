@@ -1,16 +1,21 @@
-.isSelected, button:hover {
+.isSelected, .canHover:hover {
     background-color: grey;
     border: grey;
 }
 
+button:disabled {
+    opacity: 70%;
+    cursor: not-allowed;
+}
+
 .isCorrect {
-    background-color: green;
-    border: green;
+    background-color: lightgreen;
+    border: 1px solid lightgreen;
 }
 
 .isFalse {
-    background-color: red;
-    border: red;
+    background-color: lightcoral;
+    border: 1px solid lightcoral;
 }
 
 .score {

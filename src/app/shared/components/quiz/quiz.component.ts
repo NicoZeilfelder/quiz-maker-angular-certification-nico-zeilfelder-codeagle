@@ -47,15 +47,6 @@ export class QuizComponent {
     private _customQuestions: CustomQuestion[] = [];
     private _questions: Question[] = [];
 
-    public getDecodedString(answer: string): string {
-        return answer
-            .replace('&amp;', '&')
-            .replace('&apos;', "'")
-            .replace('&quot;', '"')
-            .replace('&gt;', '>')
-            .replace('&lt;', '<');
-    }
-
     public selectAnswer(question: string, answer: string): void {
         const customQuestion: CustomQuestion | undefined = this._customQuestions?.find((c: CustomQuestion) => c.question === question);
         const index: number | undefined = customQuestion?.selected_answers.indexOf(answer);
@@ -89,11 +80,11 @@ export class QuizComponent {
 
     public getScoreColor(): string {
         if (this.numberOfCorrectAnswers >= 4) {
-            return 'green';
+            return 'lightgreen';
         } else if (this.numberOfCorrectAnswers >= 2) {
-            return 'yellow';
+            return 'lightyellow';
         } else {
-            return 'red';
+            return 'lightcoral';
         }
     }
 
