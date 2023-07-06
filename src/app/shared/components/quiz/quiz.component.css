@@ -1,10 +1,9 @@
 .isSelected, .canHover:hover {
     background-color: grey;
-    border: grey;
+    border: 1px solid grey;
 }
 
 button:disabled {
-    opacity: 70%;
     cursor: not-allowed;
 }
 
@@ -19,9 +18,9 @@ button:disabled {
 }
 
 .score {
-    width: 500px;
     display: flex;
     justify-content: center;
+    width: 500px;
     margin-top: 20px;
     margin-bottom: 10px;
 }

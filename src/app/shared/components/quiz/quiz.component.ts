@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CustomQuestion, Question} from "../../../model/quiz.model";
+import {CustomQuestion, Question} from "../../model/quiz.model";
 
 @Component({
     selector: 'app-quiz',
@@ -18,8 +18,11 @@ export class QuizComponent {
     @Input()
     set customQuestions(value: CustomQuestion[]) {
         this._customQuestions = value;
-        this.isSubmitted = true;
-        this.setNumberOfCorrectAnswers();
+
+        if (value) {
+            this.isSubmitted = true;
+            this.setNumberOfCorrectAnswers();
+        }
     }
 
     @Input()

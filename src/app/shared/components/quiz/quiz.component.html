@@ -1,7 +1,6 @@
 <div *ngIf="customQuestions">
     <div *ngIf="customQuestions.length > 0">
         <div *ngFor="let customQuestion of customQuestions">
-            <!--            <span class="row">{{getDecodedString(customQuestion.question)}}</span>-->
             <span class="row" [innerHTML]="customQuestion.question"></span>
             <div class="row">
                 <button *ngFor="let answer of customQuestion?.answers" [innerHTML]="answer" [disabled]="isSubmitted"
