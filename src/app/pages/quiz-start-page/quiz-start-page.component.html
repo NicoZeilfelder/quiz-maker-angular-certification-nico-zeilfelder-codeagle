@@ -1,8 +1,15 @@
 <h1>QUIZ MAKER</h1>
 
 <div class="row">
+    <select name="categoriesWithSubCategories" id="categoryWithSubCategoriesSelect"
+            [(ngModel)]="selectedCategoryWithSubCategories" (change)="filterCategories()">
+        <option *ngFor="let category of categoriesWithSubCategories" [value]="category">{{category}}</option>
+    </select>
+
     <select name="categories" id="categorySelect" [(ngModel)]="selectedCategory">
-        <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+        <option *ngFor="let category of filteredCategories" [value]="category.id">
+            {{category.name | removeCategoryPrefix:selectedCategoryWithSubCategories}}
+        </option>
     </select>
 
     <select name="difficulties" id="difficultySelect" [(ngModel)]="selectedDifficulty">

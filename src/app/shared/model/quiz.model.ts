@@ -34,3 +34,9 @@ export type CustomQuestion = {
     selected_answers: string[];
 }
 
+export enum CategoryWithSubCategories {
+    _ = '',
+    ENTERTAINMENT = 'Entertainment',
+    SCIENCE = 'Science',
+}
+

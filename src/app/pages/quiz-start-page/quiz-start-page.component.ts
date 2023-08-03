@@ -1,7 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from "rxjs";
 import {QuizService} from "../../services/quiz.service";
-import {Category, CustomQuestion, Difficulty, Question, Quiz, TriviaCategories} from "../../shared/model/quiz.model";
+import {
+    Category,
+    CategoryWithSubCategories,
+    CustomQuestion,
+    Difficulty,
+    Question,
+    Quiz,
+    TriviaCategories
+} from "../../shared/model/quiz.model";
 import {Router} from "@angular/router";
 
 @Component({
@@ -10,10 +18,13 @@ import {Router} from "@angular/router";
     styleUrls: ['./quiz-start-page.component.css']
 })
 export class QuizStartPageComponent implements OnInit, OnDestroy {
-    public categories: Category[] = [];
+    public categoriesWithSubCategories: string[] = Object.values(CategoryWithSubCategories);
+    public allCategories: Category[] = [];
+    public filteredCategories: Category[] = [];
     public difficulties: string[] = Object.values(Difficulty);
     public questions: Question[] = [];
 
+    public selectedCategoryWithSubCategories!: string;
     public selectedCategory!: number;
     public selectedDifficulty!: string;
 
@@ -27,8 +38,17 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
         this.subscriptions.push(this.quizService
             .getCategories()
             .subscribe((data: TriviaCategories) => {
-                this.categories = data?.trivia_categories;
+                this.allCategories = data?.trivia_categories;
+                this.filteredCategories = [...this.allCategories];
             }));
+    }
+
+    public filterCategories(): void {
+        this.filteredCategories = this.allCategories;
+
+        if (this.selectedCategoryWithSubCategories) {
+            this.filteredCategories = this.allCategories.filter((c: Category) => c.name.startsWith(this.selectedCategoryWithSubCategories));
+        }
     }
 
     public createQuiz(): void {
