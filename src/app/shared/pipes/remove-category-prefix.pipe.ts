@@ -1,14 +1,14 @@
 import {Pipe, PipeTransform} from '@angular/core';
 
 @Pipe({
-    name: 'removeCategoryPrefix'
+    name: 'removeCategoryPrefix',
 })
 export class RemoveCategoryPrefixPipe implements PipeTransform {
-    transform(value: string, category: string): string {
-        if (category) {
+    transform(value: string, prefix: string): string {
+        if (prefix) {
             return value
-                .replace(category + ': ', ' ')
-                .replace(category + ' & ', ' ');
+                .replace(prefix + ': ', ' ')
+                .replace(prefix + ' & ', ' ');
         } else {
             return value;
         }
