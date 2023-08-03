@@ -2,21 +2,21 @@
 
 <div class="row">
     <select name="categoriesWithSubCategories" id="categoryWithSubCategoriesSelect"
-            [(ngModel)]="selectedCategoryWithSubCategories" (change)="filterCategories()">
+            [(ngModel)]="selectedCategoryWithSubCategories" [disabled]="isQuizCreated" (change)="filterCategories()">
         <option *ngFor="let category of categoriesWithSubCategories" [value]="category">{{category}}</option>
     </select>
 
-    <select name="categories" id="categorySelect" [(ngModel)]="selectedCategory">
+    <select name="categories" id="categorySelect" [(ngModel)]="selectedCategory" [disabled]="isQuizCreated">
         <option *ngFor="let category of filteredCategories" [value]="category.id">
             {{category.name | removeCategoryPrefix:selectedCategoryWithSubCategories}}
         </option>
     </select>
 
-    <select name="difficulties" id="difficultySelect" [(ngModel)]="selectedDifficulty">
+    <select name="difficulties" id="difficultySelect" [(ngModel)]="selectedDifficulty" [disabled]="isQuizCreated">
         <option *ngFor="let difficulty of difficulties" [value]="difficulty">{{difficulty}}</option>
     </select>
 
-    <button id="createBtn" [disabled]="!selectedCategory || !selectedDifficulty || questions.length > 0"
+    <button id="createBtn" [disabled]="!selectedCategory || !selectedDifficulty || isQuizCreated"
             (click)="createQuiz()">Create
     </button>
 </div>

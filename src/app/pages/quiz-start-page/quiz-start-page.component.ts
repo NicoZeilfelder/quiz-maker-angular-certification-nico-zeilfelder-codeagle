@@ -28,6 +28,8 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
     public selectedCategory!: number;
     public selectedDifficulty!: string;
 
+    public isQuizCreated: boolean = false;
+
     private subscriptions: Subscription[] = [];
 
     constructor(private quizService: QuizService,
@@ -56,6 +58,7 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
             .getQuiz(this.selectedCategory, this.selectedDifficulty)
             .subscribe((data: Quiz) => {
                 this.questions = data.results;
+                this.isQuizCreated = true;
             }));
     }
 
