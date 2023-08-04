@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {CustomQuestion, Question} from "../../model/quiz.model";
+import {ChangedQuestion, CustomQuestion, Question} from "../../model/quiz.model";
 
 @Component({
     selector: 'app-quiz',
@@ -13,6 +13,10 @@ export class QuizComponent {
 
     get questions(): Question[] {
         return this._questions;
+    }
+
+    get changedQuestion(): ChangedQuestion | undefined {
+        return this._changedQuestion;
     }
 
     @Input()
@@ -42,13 +46,29 @@ export class QuizComponent {
         })
     }
 
+    @Input() set changedQuestion(value: ChangedQuestion | undefined) {
+        if (value) {
+            const customQuestion = this.customQuestions.find((q: CustomQuestion) => q.question === value.oldQuestion);
+            const index = customQuestion ? this.customQuestions.indexOf(customQuestion) : -1;
+            this._customQuestions[index] = {
+                question: value.newQuestion.question,
+                answers: [...value.newQuestion.incorrect_answers, value.newQuestion.correct_answer],
+                correct_answer: value.newQuestion.correct_answer,
+                selected_answers: []
+            }
+        }
+    }
+
+    @Output() questionChanged: EventEmitter<string> = new EventEmitter<string>();
     @Output() quizSubmitted: EventEmitter<CustomQuestion[]> = new EventEmitter<CustomQuestion[]>();
 
     public isSubmitted: boolean = false;
     public numberOfCorrectAnswers: number = 0;
+    public isQuestionChanged: boolean = false;
 
     private _customQuestions: CustomQuestion[] = [];
     private _questions: Question[] = [];
+    private _changedQuestion: ChangedQuestion | undefined = undefined;
 
     public selectAnswer(question: string, answer: string): void {
         const customQuestion: CustomQuestion | undefined = this._customQuestions?.find((c: CustomQuestion) => c.question === question);
@@ -69,6 +89,11 @@ export class QuizComponent {
 
     public isAnswerCorrect(customQuestion: CustomQuestion, answer: string): boolean {
         return customQuestion.correct_answer === answer;
+    }
+
+    public changeQuestion(question: string): void {
+        this.questionChanged.emit(question);
+        this.isQuestionChanged = true;
     }
 
     public setNumberOfCorrectAnswers(): void {

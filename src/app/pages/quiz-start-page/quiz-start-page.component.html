@@ -22,7 +22,9 @@
 </div>
 
 <div class="row">
-    <app-quiz [questions]="questions" (quizSubmitted)="submitQuiz($event)"></app-quiz>
+    <app-quiz [questions]="questions" [changedQuestion]="changedQuestion"
+              (questionChanged)="changeQuestion($event)" (quizSubmitted)="submitQuiz($event)">
+    </app-quiz>
 </div>
 
 

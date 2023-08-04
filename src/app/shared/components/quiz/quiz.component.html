@@ -10,6 +10,11 @@
                         isCorrect: isSubmitted && isAnswerCorrect(customQuestion, answer),
                         isFalse: isSubmitted && isAnswerSelected(customQuestion, answer) && !isAnswerCorrect(customQuestion, answer)}">
                 </button>
+
+                <button *ngIf="!isQuestionChanged && !isSubmitted" class="change-btn"
+                        (click)="changeQuestion(customQuestion.question)">
+                    Change Question
+                </button>
             </div>
         </div>
     </div>

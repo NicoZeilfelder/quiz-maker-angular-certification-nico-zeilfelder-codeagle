@@ -4,6 +4,7 @@ import {QuizService} from "../../services/quiz.service";
 import {
     Category,
     CategoryWithSubCategories,
+    ChangedQuestion,
     CustomQuestion,
     Difficulty,
     Question,
@@ -29,6 +30,7 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
     public selectedDifficulty!: string;
 
     public isQuizCreated: boolean = false;
+    public changedQuestion: ChangedQuestion | undefined = undefined;
 
     private subscriptions: Subscription[] = [];
 
@@ -59,6 +61,24 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
             .subscribe((data: Quiz) => {
                 this.questions = data.results;
                 this.isQuizCreated = true;
+            }));
+    }
+
+    public changeQuestion(question: string): void {
+        const allQuestions = this.questions.map((q: Question) => q.question);
+
+        this.subscriptions.push(this.quizService
+            .getQuiz(this.selectedCategory, this.selectedDifficulty, 1)
+            .subscribe((data: Quiz) => {
+                if (allQuestions.includes(data.results[0].question)) {
+                    this.changeQuestion(question);
+                    return;
+                }
+
+                this.changedQuestion = {
+                    oldQuestion: question,
+                    newQuestion: data.results[0]
+                };
             }));
     }
 

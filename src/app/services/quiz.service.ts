@@ -24,10 +24,8 @@ export class QuizService {
         return this.httpClient.get('https://opentdb.com/api_category.php') as Observable<TriviaCategories>;
     }
 
-    public getQuiz(categoryId: number, difficulty: string): Observable<Quiz> {
-        const amount: number = 5;
+    public getQuiz(categoryId: number, difficulty: string, amount: number = 5): Observable<Quiz> {
         const type: string = 'multiple';
-
         const uri = `https://opentdb.com/api.php?amount=${amount}&category=${categoryId}&difficulty=${difficulty}&type=${type}`;
 
         return this.httpClient.get(uri) as Observable<Quiz>;

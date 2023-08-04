@@ -40,3 +40,8 @@ export enum CategoryWithSubCategories {
     SCIENCE = 'Science',
 }
 
+export type ChangedQuestion = {
+    oldQuestion: string,
+    newQuestion: Question
+}
+
