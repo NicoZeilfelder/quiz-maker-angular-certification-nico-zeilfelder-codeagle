@@ -41,7 +41,6 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        console.log(this.categoriesWithSubCategories)
         this.subscriptions.push(this.quizService
             .getCategories()
             .subscribe((data: TriviaCategories) => {

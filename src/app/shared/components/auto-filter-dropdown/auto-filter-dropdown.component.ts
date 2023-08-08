@@ -16,10 +16,12 @@ export class AutoFilterDropdownComponent implements OnInit {
         this._options = value;
         this.filterOptions('');
 
-        if (!value.find(v => v.name === this.selectedOption)) {
-            console.log(this.selectedOption);
-            console.log(value);
-            this.selectedOption = '';
+        if (this.filterProperty) {
+            const option = value.find(v => v[this.filterProperty] === this.selectedOption || v[this.filterProperty]?.includes(this.selectedOption));
+            this.selectedOption = option ? option[this.filterProperty] : '';
+        } else {
+            const option = value.find(v => v === this.selectedOption || v?.includes(this.selectedOption));
+            this.selectedOption = option ?? '';
         }
     }
 
