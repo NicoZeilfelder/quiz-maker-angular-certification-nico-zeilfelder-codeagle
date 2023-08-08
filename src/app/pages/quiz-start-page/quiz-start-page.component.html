@@ -1,17 +1,29 @@
 <h1>QUIZ MAKER</h1>
 
+<!--<div class="row">-->
+<!--    <select name="categoriesWithSubCategories" id="categoryWithSubCategoriesSelect"-->
+<!--            [(ngModel)]="selectedCategoryWithSubCategories" [disabled]="isQuizCreated" (change)="filterCategories()">-->
+<!--        <option *ngFor="let category of categoriesWithSubCategories" [value]="category">{{category}}</option>-->
+<!--    </select>-->
+
+<!--    <select name="categories" id="categorySelect" [(ngModel)]="selectedCategory" [disabled]="isQuizCreated">-->
+<!--        <option *ngFor="let category of filteredCategories" [value]="category.id">-->
+<!--            {{category.name | removeCategoryPrefix:selectedCategoryWithSubCategories}}-->
+<!--        </option>-->
+<!--    </select>-->
+<!--</div>-->
+
 <div class="row">
-    <select name="categoriesWithSubCategories" id="categoryWithSubCategoriesSelect"
-            [(ngModel)]="selectedCategoryWithSubCategories" [disabled]="isQuizCreated" (change)="filterCategories()">
-        <option *ngFor="let category of categoriesWithSubCategories" [value]="category">{{category}}</option>
-    </select>
+    <app-auto-filter-dropdown id="categoryWithSubCategoriesSelect" [options]="categoriesWithSubCategories"
+                              [disabled]="isQuizCreated" (optionSelected)="filterCategories($event)">
+    </app-auto-filter-dropdown>
 
-    <select name="categories" id="categorySelect" [(ngModel)]="selectedCategory" [disabled]="isQuizCreated">
-        <option *ngFor="let category of filteredCategories" [value]="category.id">
-            {{category.name | removeCategoryPrefix:selectedCategoryWithSubCategories}}
-        </option>
-    </select>
-
+    <app-auto-filter-dropdown id="categorySelect"
+                              [options]="filteredCategories" [disabled]="isQuizCreated" [filterProperty]="'name'"
+                              [removePrefixes]="true" [prefix]="selectedCategoryWithSubCategories"
+                              (optionSelected)="setSelectedCategory($event)">
+    </app-auto-filter-dropdown>
+    
     <select name="difficulties" id="difficultySelect" [(ngModel)]="selectedDifficulty" [disabled]="isQuizCreated">
         <option *ngFor="let difficulty of difficulties" [value]="difficulty">{{difficulty}}</option>
     </select>

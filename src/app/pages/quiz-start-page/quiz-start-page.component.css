@@ -1,7 +1,13 @@
-#categorySelect {
+app-auto-filter-dropdown {
     min-width: 300px;
 }
 
 #difficultySelect {
     min-width: 75px;
 }
+
+#difficultySelect, button {
+    height: 21px
+}
+
+

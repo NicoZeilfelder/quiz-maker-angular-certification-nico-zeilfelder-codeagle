@@ -5,7 +5,7 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class RemoveCategoryPrefixPipe implements PipeTransform {
     transform(value: string, prefix: string): string {
-        if (prefix) {
+        if (value && prefix) {
             return value
                 .replace(prefix + ': ', ' ')
                 .replace(prefix + ' & ', ' ');

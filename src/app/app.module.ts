@@ -10,6 +10,8 @@ import {FormsModule} from "@angular/forms";
 import {AppRoutingModule} from "./app-routing.module";
 import {QuizComponent} from './shared/components/quiz/quiz.component';
 import {RemoveCategoryPrefixPipe} from "./shared/pipes/remove-category-prefix.pipe";
+import {AutoFilterDropdownComponent} from './shared/components/auto-filter-dropdown/auto-filter-dropdown.component';
+import { BoldPipe } from './shared/pipes/bold.pipe';
 
 @NgModule({
     declarations: [
@@ -17,7 +19,9 @@ import {RemoveCategoryPrefixPipe} from "./shared/pipes/remove-category-prefix.pi
         QuizStartPageComponent,
         QuizResultPageComponent,
         QuizComponent,
-        RemoveCategoryPrefixPipe
+        AutoFilterDropdownComponent,
+        RemoveCategoryPrefixPipe,
+        BoldPipe
     ],
     imports: [
         BrowserModule,
@@ -26,7 +30,7 @@ import {RemoveCategoryPrefixPipe} from "./shared/pipes/remove-category-prefix.pi
         FormsModule,
         AppRoutingModule,
     ],
-    providers: [QuizService],
+    providers: [QuizService, RemoveCategoryPrefixPipe],
     bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -12,6 +12,7 @@ import {
     TriviaCategories
 } from "../../shared/model/quiz.model";
 import {Router} from "@angular/router";
+import {RemoveCategoryPrefixPipe} from "../../shared/pipes/remove-category-prefix.pipe";
 
 @Component({
     selector: 'app-quiz-start-page',
@@ -26,7 +27,7 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
     public questions: Question[] = [];
 
     public selectedCategoryWithSubCategories!: string;
-    public selectedCategory!: number;
+    public selectedCategory!: number | undefined;
     public selectedDifficulty!: string;
 
     public isQuizCreated: boolean = false;
@@ -35,10 +36,12 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
     constructor(private quizService: QuizService,
+                private removeCategoryPrefixPipe: RemoveCategoryPrefixPipe,
                 private router: Router) {
     }
 
     public ngOnInit(): void {
+        console.log(this.categoriesWithSubCategories)
         this.subscriptions.push(this.quizService
             .getCategories()
             .subscribe((data: TriviaCategories) => {
@@ -47,39 +50,48 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
             }));
     }
 
-    public filterCategories(): void {
+    public filterCategories(selectedOption: string): void {
+        this.selectedCategoryWithSubCategories = selectedOption;
         this.filteredCategories = this.allCategories;
 
         if (this.selectedCategoryWithSubCategories) {
-            this.filteredCategories = this.allCategories.filter((c: Category) => c.name.startsWith(this.selectedCategoryWithSubCategories));
+            this.filteredCategories = this.allCategories.filter((c: Category) => c.name.startsWith(this.selectedCategoryWithSubCategories))
         }
     }
 
+    public setSelectedCategory(selectedOption: Category): void {
+        this.selectedCategory = selectedOption?.id;
+    }
+
     public createQuiz(): void {
-        this.subscriptions.push(this.quizService
-            .getQuiz(this.selectedCategory, this.selectedDifficulty)
-            .subscribe((data: Quiz) => {
-                this.questions = data.results;
-                this.isQuizCreated = true;
-            }));
+        if (this.selectedCategory && this.selectedDifficulty) {
+            this.subscriptions.push(this.quizService
+                .getQuiz(this.selectedCategory, this.selectedDifficulty)
+                .subscribe((data: Quiz) => {
+                    this.questions = data.results;
+                    this.isQuizCreated = true;
+                }));
+        }
     }
 
     public changeQuestion(question: string): void {
-        const allQuestions = this.questions.map((q: Question) => q.question);
+        if (this.selectedCategory && this.selectedDifficulty) {
+            const allQuestions = this.questions.map((q: Question) => q.question);
 
-        this.subscriptions.push(this.quizService
-            .getQuiz(this.selectedCategory, this.selectedDifficulty, 1)
-            .subscribe((data: Quiz) => {
-                if (allQuestions.includes(data.results[0].question)) {
-                    this.changeQuestion(question);
-                    return;
-                }
+            this.subscriptions.push(this.quizService
+                .getQuiz(this.selectedCategory, this.selectedDifficulty, 1)
+                .subscribe((data: Quiz) => {
+                    if (allQuestions.includes(data.results[0].question)) {
+                        this.changeQuestion(question);
+                        return;
+                    }
 
-                this.changedQuestion = {
-                    oldQuestion: question,
-                    newQuestion: data.results[0]
-                };
-            }));
+                    this.changedQuestion = {
+                        oldQuestion: question,
+                        newQuestion: data.results[0]
+                    };
+                }));
+        }
     }
 
     public submitQuiz(customQuestions: CustomQuestion[]): void {

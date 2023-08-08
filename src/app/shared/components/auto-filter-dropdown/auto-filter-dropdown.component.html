@@ -1,0 +1,13 @@
+<input type="text" [(ngModel)]="selectedOption" #input
+       (focusin)="focusIn($event)" (keyup)="filterOptions(input.value)">
+<button (click)="selectOption(null);"> x</button>
+
+<ng-container *ngIf="showOptions">
+    <div *ngFor="let o of filteredOptions">
+        <div class="option" (click)="selectOption(o)">
+            <span *ngIf="removePrefixes && prefix"
+                  [innerHTML]="getOption(o) | removeCategoryPrefix:prefix | bold:input.value"></span>
+            <span *ngIf="!removePrefixes || !prefix" [innerHTML]="getOption(o)| bold:input.value"></span>
+        </div>
+    </div>
+</ng-container>

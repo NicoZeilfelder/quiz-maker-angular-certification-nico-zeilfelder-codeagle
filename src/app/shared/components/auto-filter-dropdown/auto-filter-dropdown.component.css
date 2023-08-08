@@ -1,0 +1,15 @@
+input, .option {
+    width: 300px;
+}
+
+button, .option {
+    margin-right: 5px;
+}
+
+.option {
+    cursor: default;
+}
+
+.option:hover {
+    background-color: grey;
+}
