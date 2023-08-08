@@ -18,10 +18,10 @@ export class AutoFilterDropdownComponent implements OnInit {
 
         if (this.filterProperty) {
             const option = value.find(v => v[this.filterProperty] === this.selectedOption || v[this.filterProperty]?.includes(this.selectedOption));
-            this.selectedOption = option ? option[this.filterProperty] : '';
+            this.selectedOption = option && this.selectedOption ? option[this.filterProperty] : '';
         } else {
             const option = value.find(v => v === this.selectedOption || v?.includes(this.selectedOption));
-            this.selectedOption = option ?? '';
+            this.selectedOption = option && this.selectedOption ? option : '';
         }
     }
 
@@ -59,14 +59,15 @@ export class AutoFilterDropdownComponent implements OnInit {
         }
 
         const _searchTerm = searchTerm.toLowerCase();
+        const prefix = this.prefix ?? '';
 
         if (this.filterProperty) {
             this.filteredOptions = this._options.filter(o => {
-                const value = o[this.filterProperty]?.toLowerCase();
+                const value = this.removeCategoryPrefixPipe.transform(o[this.filterProperty], prefix)?.toLowerCase();
                 return value.includes(_searchTerm);
             });
         } else {
-            this.filteredOptions = this._options.filter(o => o?.toLowerCase()?.includes(_searchTerm));
+            this.filteredOptions = this._options.filter(o => this.removeCategoryPrefixPipe.transform(o?.toLowerCase(), prefix)?.includes(_searchTerm));
         }
     }
 
