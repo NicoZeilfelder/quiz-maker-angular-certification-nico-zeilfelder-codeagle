@@ -5,7 +5,6 @@ import {Pipe, PipeTransform} from '@angular/core';
 })
 export class BoldPipe implements PipeTransform {
     transform(value: string, searchTerm: string): unknown {
-        return value?.toLowerCase().replace(searchTerm, '<strong>' + searchTerm + '</strong>');
+        return value?.toLowerCase().replace(searchTerm.toLowerCase(), '<strong>' + searchTerm.toLowerCase() + '</strong>');
     }
-
 }
