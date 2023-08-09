@@ -15,6 +15,7 @@ export class AutoFilterDropdownComponent implements OnInit {
     set options(value: Array<any>) {
         this._options = value;
         this.filterOptions('');
+        this.selectedOption = '';
     }
 
     @Input() disabled: boolean = false;

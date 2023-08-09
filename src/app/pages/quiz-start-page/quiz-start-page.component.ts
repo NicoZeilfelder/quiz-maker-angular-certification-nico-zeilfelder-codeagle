@@ -54,7 +54,7 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
         this.filteredCategories = this.allCategories;
 
         if (this.selectedCategoryWithSubCategories) {
-            this.filteredCategories = this.allCategories.filter((c: Category) => c.name.startsWith(this.selectedCategoryWithSubCategories))
+            this.filteredCategories = this.allCategories.filter((c: Category) => c.name.startsWith(this.selectedCategoryWithSubCategories));
         }
     }
 
