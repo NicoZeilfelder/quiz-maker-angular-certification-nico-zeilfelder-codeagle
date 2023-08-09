@@ -35,7 +35,7 @@ export class AutoFilterDropdownComponent implements OnInit {
     }
 
     public ngOnInit() {
-        this.filteredOptions = this._options;
+        this.filteredOptions = this.options;
     }
 
     public focusIn(event: FocusEvent): void {
@@ -46,7 +46,7 @@ export class AutoFilterDropdownComponent implements OnInit {
 
     public filterOptions(searchTerm: string): void {
         if (!searchTerm) {
-            this.filteredOptions = this._options
+            this.filteredOptions = this.options
             return;
         }
 
@@ -54,12 +54,12 @@ export class AutoFilterDropdownComponent implements OnInit {
         const prefix = this.prefix ?? '';
 
         if (this.filterProperty) {
-            this.filteredOptions = this._options.filter(o => {
+            this.filteredOptions = this.options.filter(o => {
                 const value = this.removeCategoryPrefixPipe.transform(o[this.filterProperty], prefix)?.toLowerCase();
                 return value.includes(_searchTerm);
             });
         } else {
-            this.filteredOptions = this._options.filter(o => this.removeCategoryPrefixPipe.transform(o?.toLowerCase(), prefix)?.includes(_searchTerm));
+            this.filteredOptions = this.options.filter(o => this.removeCategoryPrefixPipe.transform(o?.toLowerCase(), prefix)?.includes(_searchTerm));
         }
     }
 
