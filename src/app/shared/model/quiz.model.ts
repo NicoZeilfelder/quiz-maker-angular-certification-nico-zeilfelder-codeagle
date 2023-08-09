@@ -35,7 +35,6 @@ export type CustomQuestion = {
 }
 
 export enum CategoryWithSubCategories {
-    _ = '',
     ENTERTAINMENT = 'Entertainment',
     SCIENCE = 'Science',
 }

@@ -15,14 +15,6 @@ export class AutoFilterDropdownComponent implements OnInit {
     set options(value: Array<any>) {
         this._options = value;
         this.filterOptions('');
-
-        if (this.filterProperty) {
-            const option = value.find(v => v[this.filterProperty] === this.selectedOption || v[this.filterProperty]?.includes(this.selectedOption));
-            this.selectedOption = option && this.selectedOption ? option[this.filterProperty] : '';
-        } else {
-            const option = value.find(v => v === this.selectedOption || v?.includes(this.selectedOption));
-            this.selectedOption = option && this.selectedOption ? option : '';
-        }
     }
 
     @Input() disabled: boolean = false;
@@ -83,5 +75,4 @@ export class AutoFilterDropdownComponent implements OnInit {
     public getOption(option: any): string {
         return this.filterProperty && option ? option[this.filterProperty] : option;
     }
-
 }

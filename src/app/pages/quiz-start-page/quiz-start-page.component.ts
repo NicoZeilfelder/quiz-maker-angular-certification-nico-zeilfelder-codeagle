@@ -58,6 +58,11 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
         }
     }
 
+    public isSubCategorySelectVisible(): boolean {
+        return this.selectedCategoryWithSubCategories === CategoryWithSubCategories.ENTERTAINMENT ||
+            this.selectedCategoryWithSubCategories === CategoryWithSubCategories.SCIENCE;
+    }
+
     public setSelectedCategory(selectedOption: Category): void {
         this.selectedCategory = selectedOption?.id;
     }

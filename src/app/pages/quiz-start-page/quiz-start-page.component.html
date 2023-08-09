@@ -18,12 +18,12 @@
                               [disabled]="isQuizCreated" (optionSelected)="filterCategories($event)">
     </app-auto-filter-dropdown>
 
-    <app-auto-filter-dropdown id="categorySelect"
+    <app-auto-filter-dropdown id="categorySelect" *ngIf="isSubCategorySelectVisible()"
                               [options]="filteredCategories" [disabled]="isQuizCreated" [filterProperty]="'name'"
                               [removePrefixes]="true" [prefix]="selectedCategoryWithSubCategories"
                               (optionSelected)="setSelectedCategory($event)">
     </app-auto-filter-dropdown>
-    
+
     <select name="difficulties" id="difficultySelect" [(ngModel)]="selectedDifficulty" [disabled]="isQuizCreated">
         <option *ngFor="let difficulty of difficulties" [value]="difficulty">{{difficulty}}</option>
     </select>
