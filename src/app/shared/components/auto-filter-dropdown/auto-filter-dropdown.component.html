@@ -1,7 +1,7 @@
-<input type="text" [(ngModel)]="selectedOption" (focusin)="focusIn($event)"
+<input type="text" [(ngModel)]="selectedOption" [disabled]="disabled" (focusin)="focusIn($event)"
        (keyup)="filterOptions(input.value)" #input>
 
-<button (click)="selectOption(null);"> x</button>
+<button [disabled]="disabled" (click)="selectOption(null);"> x</button>
 
 <ng-container *ngIf="showOptions">
     <div *ngFor="let o of filteredOptions">
