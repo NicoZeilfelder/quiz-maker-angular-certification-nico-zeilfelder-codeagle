@@ -14,13 +14,13 @@
 <!--</div>-->
 
 <div class="row">
-    <app-auto-filter-dropdown id="categoryWithSubCategoriesSelect" [options]="categoriesWithSubCategories"
+    <app-auto-filter-dropdown id="categoryWithSubCategoriesSelect" [options]="allCategoryNames"
                               [disabled]="isQuizCreated" (optionSelected)="filterCategories($event)">
     </app-auto-filter-dropdown>
 
     <app-auto-filter-dropdown id="categorySelect" *ngIf="isSubCategorySelectVisible()"
                               [options]="filteredCategories" [disabled]="isQuizCreated" [filterProperty]="'name'"
-                              [removePrefixes]="true" [prefix]="selectedCategoryWithSubCategories"
+                              [removePrefixes]="true" [prefix]="categoryPrefix"
                               (optionSelected)="setSelectedCategory($event)">
     </app-auto-filter-dropdown>
 
@@ -28,8 +28,9 @@
         <option *ngFor="let difficulty of difficulties" [value]="difficulty">{{difficulty}}</option>
     </select>
 
-    <button id="createBtn" [disabled]="!selectedCategory || !selectedDifficulty || isQuizCreated"
-            (click)="createQuiz()">Create
+    <button id="createBtn" (click)="createQuiz()"
+            [disabled]="(!selectedCategoryId && !selectedSubCategoryId) || !selectedDifficulty || isQuizCreated">
+        Create
     </button>
 </div>
 

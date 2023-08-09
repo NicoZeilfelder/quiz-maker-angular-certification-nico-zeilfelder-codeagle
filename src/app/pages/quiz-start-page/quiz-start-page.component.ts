@@ -20,18 +20,19 @@ import {RemoveCategoryPrefixPipe} from "../../shared/pipes/remove-category-prefi
     styleUrls: ['./quiz-start-page.component.css']
 })
 export class QuizStartPageComponent implements OnInit, OnDestroy {
-    public categoriesWithSubCategories: string[] = Object.values(CategoryWithSubCategories);
     public allCategories: Category[] = [];
+    public allCategoryNames: string[] = [];
     public filteredCategories: Category[] = [];
     public difficulties: string[] = Object.values(Difficulty);
     public questions: Question[] = [];
 
-    public selectedCategoryWithSubCategories!: string;
-    public selectedCategory!: number | undefined;
+    public selectedCategoryId!: number | undefined;
+    public selectedSubCategoryId!: number | undefined;
     public selectedDifficulty!: string;
 
     public isQuizCreated: boolean = false;
     public changedQuestion: ChangedQuestion | undefined = undefined;
+    public categoryPrefix: string = '';
 
     private subscriptions: Subscription[] = [];
 
@@ -45,32 +46,49 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
             .getCategories()
             .subscribe((data: TriviaCategories) => {
                 this.allCategories = data?.trivia_categories;
+                this.allCategoryNames = data?.trivia_categories
+                    .map((c: Category) => c.name)
+                    .filter((name: string) => !(name?.startsWith(CategoryWithSubCategories.ENTERTAINMENT) || (name?.startsWith(CategoryWithSubCategories.SCIENCE))));
+                this.allCategoryNames.push(...Object.values(CategoryWithSubCategories));
                 this.filteredCategories = [...this.allCategories];
             }));
     }
 
     public filterCategories(selectedOption: string): void {
-        this.selectedCategoryWithSubCategories = selectedOption;
+        this.selectedCategoryId = this.allCategories.find((c: Category) => c.name === selectedOption)?.id;
+        this.categoryPrefix = this.getCategoryPrefix(selectedOption);
         this.filteredCategories = this.allCategories;
 
-        if (this.selectedCategoryWithSubCategories) {
-            this.filteredCategories = this.allCategories.filter((c: Category) => c.name.startsWith(this.selectedCategoryWithSubCategories));
+        if (this.categoryPrefix) {
+            this.filteredCategories = this.allCategories.filter((c: Category) => c.name?.startsWith(this.categoryPrefix));
+        }
+    }
+
+    private getCategoryPrefix(category: string): string {
+        if (category?.startsWith(CategoryWithSubCategories.ENTERTAINMENT)) {
+            return CategoryWithSubCategories.ENTERTAINMENT
+        } else if (category?.startsWith(CategoryWithSubCategories.SCIENCE)) {
+            return CategoryWithSubCategories.SCIENCE
+        } else {
+            return '';
         }
     }
 
     public isSubCategorySelectVisible(): boolean {
-        return this.selectedCategoryWithSubCategories === CategoryWithSubCategories.ENTERTAINMENT ||
-            this.selectedCategoryWithSubCategories === CategoryWithSubCategories.SCIENCE;
+        return this.categoryPrefix === CategoryWithSubCategories.ENTERTAINMENT ||
+            this.categoryPrefix === CategoryWithSubCategories.SCIENCE;
     }
 
     public setSelectedCategory(selectedOption: Category): void {
-        this.selectedCategory = selectedOption?.id;
+        this.selectedSubCategoryId = selectedOption?.id;
     }
 
     public createQuiz(): void {
-        if (this.selectedCategory && this.selectedDifficulty) {
+        const categoryId = this.selectedSubCategoryId || this.selectedCategoryId;
+
+        if (categoryId && this.selectedDifficulty) {
             this.subscriptions.push(this.quizService
-                .getQuiz(this.selectedCategory, this.selectedDifficulty)
+                .getQuiz(categoryId, this.selectedDifficulty)
                 .subscribe((data: Quiz) => {
                     this.questions = data.results;
                     this.isQuizCreated = true;
@@ -79,11 +97,11 @@ export class QuizStartPageComponent implements OnInit, OnDestroy {
     }
 
     public changeQuestion(question: string): void {
-        if (this.selectedCategory && this.selectedDifficulty) {
+        if (this.selectedSubCategoryId && this.selectedDifficulty) {
             const allQuestions = this.questions.map((q: Question) => q.question);
 
             this.subscriptions.push(this.quizService
-                .getQuiz(this.selectedCategory, this.selectedDifficulty, 1)
+                .getQuiz(this.selectedSubCategoryId, this.selectedDifficulty, 1)
                 .subscribe((data: Quiz) => {
                     if (allQuestions.includes(data.results[0].question)) {
                         this.changeQuestion(question);
